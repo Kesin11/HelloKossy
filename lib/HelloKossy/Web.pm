@@ -4,6 +4,11 @@ use strict;
 use warnings;
 use utf8;
 use Kossy;
+use HelloKossy::Model::DB;
+
+my $teng = HelloKossy::Model::DB->new(
+    +{connect_info => ['dbi:mysql:database=HelloKossy', 'hellokossy', 'dena']}
+);
 
 filter 'set_title' => sub {
     my $app = shift;
@@ -27,6 +32,10 @@ post '/submit' => sub {
                 ['NOT_NULL','empty body'],
             ],
         }]);
+    my $text = $result->valid->get('text');
+    my $row = $teng->insert('Text' => {
+            text => $text
+    });
     $c->render_json({text => $result->valid->get('text') });
     # $c->render('index.tx', { greeting => "Hello" });
 };
