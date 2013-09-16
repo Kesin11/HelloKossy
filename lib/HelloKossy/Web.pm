@@ -19,7 +19,7 @@ get '/' => [qw/set_title/] => sub {
     $c->render('index.tx', { greeting => "Hello" });
 };
 
-post '/submmit' => sub {
+post '/submit' => sub {
     my ( $self, $c )  = @_;
     my $result = $c->req->validator([
         'text' => {
@@ -27,7 +27,7 @@ post '/submmit' => sub {
                 ['NOT_NULL','empty body'],
             ],
         }]);
-    $c->render_json({body => $result->valid->get('body') });
+    $c->render_json({text => $result->valid->get('text') });
     # $c->render('index.tx', { greeting => "Hello" });
 };
 
