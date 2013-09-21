@@ -5,6 +5,7 @@ use warnings;
 use utf8;
 use Kossy;
 use HelloKossy::Model::DB;
+use Data::Dumper;
 
 my $teng = HelloKossy::Model::DB->new(
     +{connect_info => ['dbi:mysql:database=HelloKossy', 'hellokossy', 'dena']}
@@ -21,7 +22,13 @@ filter 'set_title' => sub {
 
 get '/' => [qw/set_title/] => sub {
     my ( $self, $c )  = @_;
-    $c->render('index.tx', { greeting => "Hello" });
+    my $it = $teng->search('Text');
+    $c->render('index.tx', {text_it => $it});
+};
+
+get '/edit' => sub{
+    my ( $self, $c ) = @_;
+    $c->render('index.tx', {greeting => "Hello"});
 };
 
 post '/submit' => sub {
@@ -36,8 +43,8 @@ post '/submit' => sub {
     my $row = $teng->insert('Text' => {
             text => $text
     });
-    $c->render_json({text => $result->valid->get('text') });
-    # $c->render('index.tx', { greeting => "Hello" });
+    print Dumper $text;
+    $c->redirect($c->req->uri_for('/'));
 };
 
 get '/json' => sub {
@@ -54,4 +61,3 @@ get '/json' => sub {
 };
 
 1;
-
