@@ -18,4 +18,16 @@ $row = $teng->insert('Text' => {
     text => 'Tengから追加されたテキスト'
 });
 
+my $it = $teng->search('Text');
+while (my $row = $it->next) {
+    print $row->text, "\n";
+}
+
+print "---------\n";
+
+my @rows = $teng->search('Text');
+for my $row (@rows){
+    print $row->text, "\n";
+}
+
 1;
