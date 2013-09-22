@@ -26,11 +26,6 @@ get '/' => [qw/set_title/] => sub {
     $c->render('index.tx', {text_it => $it});
 };
 
-get '/edit' => sub{
-    my ( $self, $c ) = @_;
-    $c->render('index.tx', {greeting => "Hello"});
-};
-
 post '/submit' => sub {
     my ( $self, $c )  = @_;
     my $result = $c->req->validator([
@@ -43,7 +38,39 @@ post '/submit' => sub {
     my $row = $teng->insert('Text' => {
             text => $text
     });
-    print Dumper $text;
+    $c->redirect($c->req->uri_for('/'));
+};
+
+get '/{id:[0-9]+}' => sub{
+    my ( $self, $c ) = @_;
+    my $row = $teng->single('Text', {"id" => $c->args->{id}});
+    if ($row){
+        $c->render('edit.tx', {row => $row});
+    }
+    else{
+        $c->halt(404, "file not found");
+    }
+};
+
+# kossyでformタグからput, deleteメソッドでアクセスできないようなので、仕方なくこのアクセスポイントにする
+post '/update/{id:[0-9]+}' => sub{
+    my ( $self, $c ) = @_;
+    my $id = $c->args->{id};
+    my $result = $c->req->validator([
+        'text' => {
+            rule => [
+                ['NOT_NULL','empty body'],
+            ],
+        }]);
+    my $text = $result->valid->get('text');
+    my $record = $teng->update('Text', +{text => $text}, +{id => $id});
+    $c->redirect($c->req->uri_for('/'));
+};
+
+get '/delete/{id:[0-9]+}' => sub{
+    my ( $self, $c ) = @_;
+    my $id = $c->args->{id};
+    $teng->delete('Text', +{id => $id});
     $c->redirect($c->req->uri_for('/'));
 };
 

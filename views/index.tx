@@ -7,11 +7,10 @@
 </form>
 <div id="dbTexts">
 : while $text_it.next -> $row{
-    <form action="<: $c.req.uri_for('/edit') :>" method="get">
-        <p name="<: $row.id :>"><: $row.id :> <: $row.text :></p>
+    <form action="/<: $row.id :>" method="get">
+        <p> <: $row.text :> </p>
         <input type="submit" value="編集・削除">
     </form>
 : }
 </div>
 : }
-
