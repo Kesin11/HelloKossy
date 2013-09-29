@@ -22,7 +22,7 @@ filter 'set_title' => sub {
 
 get '/' => [qw/set_title/] => sub {
     my ( $self, $c )  = @_;
-    my $it = $teng->search('TODOS');
+    my $it = $teng->search('todos');
     $c->render('index.tx', {text_it => $it});
 };
 
@@ -35,7 +35,7 @@ post '/submit' => sub {
             ],
         }]);
     my $text = $result->valid->get('text');
-    my $row = $teng->insert('TODOS' => {
+    my $row = $teng->insert('todos' => {
             name => $text
     });
     $c->redirect($c->req->uri_for('/'));
@@ -43,7 +43,7 @@ post '/submit' => sub {
 
 get '/{id:[0-9]+}' => sub{
     my ( $self, $c ) = @_;
-    my $row = $teng->single('TODOS', {"id" => $c->args->{id}});
+    my $row = $teng->single('todos', {"id" => $c->args->{id}});
     if ($row){
         $c->render('edit.tx', {row => $row});
     }
@@ -63,14 +63,14 @@ post '/update/{id:[0-9]+}' => sub{
             ],
         }]);
     my $text = $result->valid->get('text');
-    my $record = $teng->update('TODOS', +{name => $text}, +{id => $id});
+    my $record = $teng->update('todos', +{name => $text}, +{id => $id});
     $c->redirect($c->req->uri_for('/'));
 };
 
 get '/delete/{id:[0-9]+}' => sub{
     my ( $self, $c ) = @_;
     my $id = $c->args->{id};
-    $teng->delete('TODOS', +{id => $id});
+    $teng->delete('todos', +{id => $id});
     $c->redirect($c->req->uri_for('/'));
 };
 

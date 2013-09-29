@@ -5,7 +5,7 @@ sub init{
 	my $teng = shift;
 	print "Create TABLE todos\n";
 	$teng->do(q{
-		CREATE TABLE todos (
+		CREATE TABLE todos(
 			id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 			name TEXT NOT NULL,
 			comment TEXT default NULL,
