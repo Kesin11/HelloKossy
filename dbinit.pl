@@ -8,11 +8,11 @@ sub init{
 		CREATE TABLE todos(
 			id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 			name TEXT NOT NULL,
+			created_at DATETIME,
+			updated_at TIMESTAMP ON UPDATE current_timestamp,
 			comment TEXT default NULL,
-			created_at TIMESTAMP default current_timestamp,
-			updated_at TIMESTAMP,
 			parent_id INT default NULL,
-			deadline TIMESTAMP
+			deadline DATETIME
 		)
 	});
 }

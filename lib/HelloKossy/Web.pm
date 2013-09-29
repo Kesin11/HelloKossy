@@ -6,6 +6,7 @@ use utf8;
 use Kossy;
 use HelloKossy::Model::DB;
 use Data::Dumper;
+use DateTime;
 
 my $teng = HelloKossy::Model::DB->new(
     +{connect_info => ['dbi:mysql:database=HelloKossy', 'hellokossy', 'dena']}
@@ -36,7 +37,8 @@ post '/submit' => sub {
         }]);
     my $text = $result->valid->get('text');
     my $row = $teng->insert('todos' => {
-            name => $text
+            name => $text,
+            created_at => DateTime->now(time_zone => 'local')
     });
     $c->redirect($c->req->uri_for('/'));
 };
