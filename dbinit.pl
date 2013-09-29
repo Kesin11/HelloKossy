@@ -1,5 +1,5 @@
-use lib 'lib/simple';
-use db;
+use lib 'lib/HelloKossy';
+use Model::DB;
 
 sub init{
 	my $teng = shift;
@@ -18,7 +18,9 @@ sub init{
 }
 
 print "DB initializing...\n";
-$teng = teng();
+my $teng = HelloKossy::Model::DB->new(
+    +{connect_info => ['dbi:mysql:database=HelloKossy', 'hellokossy', 'dena']}
+);
 init($teng);
 print "DB initialized...\n";
 
