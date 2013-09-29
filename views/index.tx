@@ -8,7 +8,7 @@
 <div id="dbTexts">
 : while $text_it.next -> $row{
     <form action="/<: $row.id :>" method="get">
-        <p> <: $row.text :> </p>
+        <p> <: $row.name :> </p>
         <input type="submit" value="編集・削除">
     </form>
 : }

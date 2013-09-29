@@ -2,7 +2,7 @@
 : around content -> {
 <h1><: $c.stash.site_name :></h1>
 <form action="/update/<: $row.id :>" method="post">
-    <textarea name="text" rows="4" cols="40"><: $row.text :></textarea>
+    <textarea name="text" rows="4" cols="40"><: $row.name :></textarea>
     <input type="submit" value="更新"/>
 </form>
 <form action="/delete/<: $row.id :>" method="get">
