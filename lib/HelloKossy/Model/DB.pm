@@ -7,7 +7,7 @@ use warnings;
 use Teng::Schema::Declare;
 
 table {
-    name 'TODOS';
+    name 'todos';
     pk 'id';
     columns qw/id name created_at updated_at comment/;
 };
